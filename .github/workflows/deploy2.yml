@@ -19,13 +19,13 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20        # 👈 без cache
+          node-version: 20        # cache убрали
 
       - name: Install dependencies
-        run: npm ci --no-fund --no-audit
+        run: npm install --no-fund --no-audit
 
       - name: Build
-        run: npm run build        # dist/
+        run: npm run build        # генерирует dist/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
