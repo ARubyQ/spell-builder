@@ -42,3 +42,27 @@ export const defaultTags = [
   { id: "concsave", group: "Издержки", name: "Концентрация скидка", pool: "off", cost: -2 },
   { id: "material", group: "Издержки", name: "Мат. компонент ≥ 100 gp", pool: "util", cost: -1 },
 ];
+
+export const baseDicePrice = {
+  hurt: { d6: 1,  d8: 1.3 },
+  heal: { d8: 1.5, temp: 1 }   // temp-HP d6 = «temp»
+};
+
+/** коэффициент мощности КМ (§ 3.1) */
+export const kmFactor = {
+  hurt:   { single: 1, few: 1.5, aoe: 2   },
+  heal:   { single: 1.5, few: 2.5, aoe: 3 }
+};
+
+/** лимит количества дайсов «до КМ» (§ 3.2) */
+export const diceLimits = {
+  1: { hurt: 4,  heal: 2  },
+  2: { hurt: 6,  heal: 3  },   // промежуточные — берём среднее
+  3: { hurt: 8,  heal: 4  },
+  4: { hurt: 10, heal: 5  },
+  5: { hurt: 12, heal: 6  },
+  6: { hurt: 14, heal: 7  },
+  7: { hurt: 18, heal: 8  },
+  8: { hurt: 19, heal: 9  },
+  9: { hurt: 20, heal: 10 }
+};

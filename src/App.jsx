@@ -1,8 +1,9 @@
 
 import React, { useState } from "react";
-import SlotSelector from "./components/SlotSelector.jsx";
-import TagTable from "./components/TagTable.jsx";
-import SummaryPanel from "./components/SummaryPanel.jsx";
+import SlotSelector   from "./components/SlotSelector.jsx";
+import DiceCalculator from "./components/DiceCalculator.jsx";
+import TagTable       from "./components/TagTable.jsx";
+import SummaryPanel   from "./components/SummaryPanel.jsx";
 
 export default function App() {
   const [slot, setSlot] = useState(1);
@@ -20,6 +21,7 @@ export default function App() {
     <div className="container mx-auto p-6 grid md:grid-cols-3 gap-6">
       <div className="md:col-span-2">
         <SlotSelector slot={slot} setSlot={setSlot} />
+        <DiceCalculator slot={slot} addTag={addTag} />
         <TagTable addTag={addTag} />
       </div>
       <SummaryPanel
