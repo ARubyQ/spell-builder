@@ -1,21 +1,16 @@
-# Деплой статического «Spell Builder» на GitHub Pages
-# ▸ собираем Vite-бандл → загружаем артефакт → выкатываем в gh-pages
-
 name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: ['main']         # деплой при любом пуше в main
-  workflow_dispatch:           # + возможность «Run workflow» вручную
+    branches: [main]
 
 permissions:
-  contents: read               # нужно checkout-action
-  pages: write                 # заливка в gh-pages
-  id-token: write              # OIDC-токен для deploy-pages
+  contents: read
+  pages: write
+  id-token: write
 
-# ──────────────────────── JOB 1: BUILD ──────────────────────────
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -24,34 +19,18 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: npm
+          node-version: 20        # 👈 без cache
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --no-fund --no-audit
 
-      - name: Build project
-        run: npm run build           # генерирует dist/ через vite
+      - name: Build
+        run: npm run build        # dist/
 
-      # Подготавливает среду GitHub Pages (авто-CNAME, base-URL и т.д.)
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
-
-      # Упаковываем dist/ в артефакт «github-pages»
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: dist
 
-# ──────────────────────── JOB 2: DEPLOY ─────────────────────────
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages          # системная env; создаётся сама
-      url: ${{ steps.deploy.outputs.page_url }}
-
-    steps:
       - name: Deploy to GitHub Pages
-        id: deploy
         uses: actions/deploy-pages@v4
